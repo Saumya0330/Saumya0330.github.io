@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Astrophysics & Computer Science</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            background: #0a0a23;
+        }
+
+        /* Enhanced Van Gogh inspired animated background */
+        .starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(153, 0, 255, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(135, 206, 250, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(25, 25, 112, 0.8) 0%, transparent 50%),
+                linear-gradient(135deg, #0c1445 0%, #1a237e 25%, #3949ab 50%, #1a237e 75%, #0c1445 100%);
+        }
+
+        /* Van Gogh swirling brushstrokes */
+        .brushstrokes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        .brushstroke {
+            position: absolute;
+            border-radius: 50px;
+            animation: swirl 15s linear infinite;
+        }
+
+        .brushstroke:nth-child(1) {
+            width: 300px;
+            height: 8px;
+            background: linear-gradient(45deg, #ffd700, #ff6b35);
+            top: 20%;
+            left: 10%;
+            animation-delay: -2s;
+        }
+
+        .brushstroke:nth-child(2) {
+            width: 200px;
+            height: 6px;
+            background: linear-gradient(45deg, #87ceeb, #4169e1);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .brushstroke:nth-child(3) {
+            width: 250px;
+            height: 10px;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -8s;
+        }
+
+        @keyframes swirl {
+            from { 
+                transform: rotate(0deg) translateX(50px) rotate(0deg);
+                opacity: 0.2;
+            }
+            to { 
+                transform: rotate(360deg) translateX(50px) rotate(-360deg);
+                opacity: 0.6;
+            }
+        }
+
+        /* Enhanced stars with better animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        .star.bright {
+            background: #ffd700;
+            box-shadow: 0 0 10px #ffd700;
+            animation: brightTwinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+            100% { opacity: 0.4; transform: scale(1); }
+        }
+
+        @keyframes brightTwinkle {
+            0% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 10px #ffd700; }
+            50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px #ffd700; }
+            100% { opacity: 0.7; transform: scale(1.1); box-shadow: 0 0 15px #ffd700; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 6rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-content {
+            width: 100%;
+        }
+
+        /* Home section */
+        .home {
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid #ffd700;
+            margin: 0 auto 2rem;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.4),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+            animation: float 4s ease-in-out infinite;
+            object-fit: cover;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(-10px) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-1deg); }
+        }
+
+        .home h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffd700, #fff, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .home h2 {
+            font-size: 1.5rem;
+            color: #87ceeb;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .home p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #e6e6fa;
+        }
+
+        /* Social links section */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .social-link i {
+            font-size: 1.2rem;
+        }
+
+        /* Section headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .section-header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(45deg, #ffd700, #87ceeb);
+            margin: 1rem auto;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #87ceeb;
+        }
+
+        .card p {
+            color: #e6e6fa;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .card-link {
+            color: #ffd700;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .card-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Gallery section for artwork */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 30px rgba(135, 206, 235, 0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        /* Achievements section */
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ffd700;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .achievement-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.1);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-right: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Hobbies section */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .hobby-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .hobby-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(135, 206, 235, 0.2);
+        }
+
+        .hobby-icon {
+            font-size: 2.5rem;
+            color: #87ceeb;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(135, 206, 235, 0.5);
+        }
+
+        /* Find Me At section */
+        .connect-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            text-align: center;
+        }
+
+        .connect-section h3 {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .connect-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .connect-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .connect-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .connect-link i {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .home h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .connect-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced starry background -->
+    <div class="starry-background"></div>
+    
+    <!-- Van Gogh brushstrokes -->
+    <div class="brushstrokes">
+        <div class="brushstroke"></div>
+        <div class="brushstroke"></div>
+        <div class="brushstroke"></div>
+    </div>
+    
+    <!-- Animated stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">✨ Your Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#hobbies">Hobbies</a></li>
+                <li><a href="#connect">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="home">
+        <div class="container">
+            <div class="section-content fade-in">
+                <!-- REPLACE THIS URL WITH YOUR ACTUAL PHOTO -->
+                <img src="https://drive.google.com/uc?export=view&id=1A9lz2OM8VSQ0c6phC0geSecjEo652p97" alt="Profile Picture" class="profile-img">
+                <h1>Saumya Gupta</h1>
+                <h2>Pre-Final year Computer Science Engineering Student <br>
+                    Thapar Institute of Engineering and Technology
+                </h2>
+                <p>
+                    Welcome to my digital cosmos! I'm a passionate researcher exploring the mysteries of the universe through radio astronomy at GMRT, NCRA, while crafting innovative solutions in computer science. My journey spans from studying distant celestial objects to developing AI algorithms for exoplanet detection. Like Van Gogh's swirling night sky, I find beauty in the complex patterns of both code and cosmos.
+                </p>
+                
+                <div class="social-links">
+                    <a href="mailto:saumyag9305@gmail.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/saumya-gupta-9146a2275/" target="_blank" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/Saumya0330" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-content">
+                <div class="section-header fade-in">
+                    <h2>🚀 Research & Projects</h2>
+                </div>
+                <div class="cards-grid">
+                    <div class="card fade-in">
+                        <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <h3>GMRT Radio Astronomy Research</h3>
+                        <p>Conducting cutting-edge research on fringe stopping and fractional delay correction for the Giant Metrewave Radio Telescope using advanced lookup table algorithms. Selected as 1 of 33 students nationwide under the prestigious NIUS programme.</p>
+                        <div class="card-links">
+                            <a href="https://github.com/yourusername/gmrt-research" class="card-link" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="https://your-paper-link.com" class="card-link" target="_blank">
+                                <i class="fas fa-file-pdf"></i> Paper
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>CUDA-Accelerated Exoplanet Detection</h3>
+                        <p>Developed a high-performance K-Nearest Neighbors algorithm using CUDA for GPU acceleration to detect exoplanets in astronomical datasets. Achieved significant speedup in processing large-scale astronomical data.</p>
+                        <div class="card-links">
+                            <a href="https://github.com/yourusername/cuda-exoplanet-detection" class="card-link" target="_blank">
+                                <i class="fab fa-github"></i> Repository
+                            </a>
+                            <a href="https://your-demo-link.com" class="card-link" target="_blank">
+                                <i class="fas fa-play"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon"><i class="fas fa-globe"></i></div>
+                        <h3>Age of Universe Prediction Model</h3>
+                        <p>Created a comprehensive Jupyter notebook implementing the Lambda-CDM cosmological model to predict the age of the universe. Integrated various cosmological parameters and observational data for accurate predictions.</p>
+                        <div class="card-links">
+                            <a href="https://github.com/yourusername/universe-age-prediction" class="card-link" target="_blank">
+                                <i class="fab fa-github"></i> Notebook
+                            </a>
+                            <a href="https://nbviewer.org/your-notebook-link" class="card-link" target="_blank">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements">
+        <div class="container">
+            <div class="section-content">
+                <div class="section-header fade-in">
+                    <h2>🏆 Achievements & Certifications</h2>
+                </div>
+                <div class="fade-in">
+                    <div class="achievement-item">
+                        <div class="achievement-icon"><i class="fas fa-trophy"></i></div>
+                        <div>
+                            <h3>NIUS Programme Selection</h3>
+                            <p>Selected as 1 out of 33 students from across India for the prestigious National Initiative on Undergraduate Science programme for research at GMRT, NCRA.</p>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon"><i class="fas fa-medal"></i></div>
+                        <div>
+                            <h3>Academic Excellence Awards</h3>
+                            <p>Awarded cash prize, book prize, and gold medal for achieving perfect 10/10 CGPA in first semester and securing first position in Computer Science Engineering branch.</p>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon"><i class="fas fa-certificate"></i></div>
+                        <div>
+                            <h3>Professional Certifications</h3>
+                            <p>
+                                <a href="https://coursera.org/verify/your-certificate-id" target="_blank" style="color: #ffd700; text-decoration: none;">Coursera Professional Certificate</a> • 
+                                <a href="https://your-isa-certificate-link.com" target="_blank" style="color: #ffd700; text-decoration: none;">ISA Summer School Certificate</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hobbies Section -->
+    <section id="hobbies">
+        <div class="container">
+            <div class="section-content">
+                <div class="section-header fade-in">
+                    <h2>🎨 Hobbies & Extracurriculars</h2>
+                </div>
+                <div class="hobbies-grid">
+                    <div class="hobby-card fade-in">
+                        <div class="hobby-icon"><i class="fas fa-palette"></i></div>
+                        <h3>Fine Arts & Photography</h3>
+                        <p>Active member of FAPS (Fine Arts and Photography Society), creating visual narratives through various artistic mediums.</p>
+                    </div>
+                    <div class="hobby-card fade-in">
+                        <div class="hobby-icon"><i class="fas fa-heart"></i></div>
+                        <h3>Community Service</h3>
+                        <p>Volunteer with Pratigya society, dedicated to teaching and mentoring underprivileged children in the community.</p>
+                    </div>
+                    <div class="hobby-card fade-in">
+                        <div class="hobby-icon"><i class="fas fa-magic"></i></div>
+                        <h3>Semi-Classical Dance</h3>
+                        <p>CORE member of Mudra cultural department, performing and promoting semi-classical dance forms in various events.</p>
+                    </div>
+                    <div class="hobby-card fade-in">
+                        <div class="hobby-icon"><i class="fas fa-telescope"></i></div>
+                        <h3>Amateur Astronomy</h3>
+                        <p>Current Marketing & PR Head of TAAS (Thapar Amateur Astronomers Society), organizing stargazing events and astronomy outreach.</p>
+                    </div>
+                </div>
+
+                <!-- Art Gallery Section -->
+                <div class="fade-in" style="margin-top: 4rem;">
+                    <h3 style="text-align: center; color: #87ceeb; font-size: 2rem; margin-bottom: 2rem;">🎨 My Artwork</h3>
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x200/87ceeb/ffffff?text=Painting+1" alt="My Painting 1" class="gallery-img">
+                            <h4 style="color: #ffd700;">Starry Landscape</h4>
+                            <p style="font-size: 0.9rem; color: #e6e6fa;">Oil on canvas, inspired by Van Gogh</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x200/9370db/ffffff?text=Painting+2" alt="My Painting 2" class="gallery-img">
+                            <h4 style="color: #ffd700;">Cosmic Dance</h4>
+                            <p style="font-size: 0.9rem; color: #e6e6fa;">Acrylic on canvas</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x200/4169e1/ffffff?text=Painting+3" alt="My Painting 3" class="gallery-img">
+                            <h4 style="color: #ffd700;">Galaxy Dreams</h4>
+                            <p style="font-size: 0.9rem; color: #e6e6fa;">Watercolor and digital art</p>
+                        </div>
+                        <!-- PDF Art Portfolio -->
+                        <div class="gallery-item" style="grid-column: span 2;">
+                            <h4 style="color: #ffd700; margin-bottom: 1rem;">Complete Art Portfolio (PDF)</h4>
+                            <iframe src="https://your-pdf-link.com/art-portfolio.pdf" class="pdf-viewer"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect">
+        <div class="container">
+            <div class="section-content">
+                <div class="section-header fade-in">
+                    <h2>🌟 Find Me At</h2>
+                </div>
+                <div class="connect-section fade-in">
+                    <h3>Let's Connect & Collaborate</h3>
+                    <p style="color: #e6e6fa; margin-bottom: 2rem; font-size: 1.1rem;">
+                        Feel free to reach out for research collaborations, internship opportunities, or just to chat about astronomy and technology!
+                    </p>
+                    <div class="connect-links">
+                        <a href="mailto:your.email@example.com" class="connect-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email Me</span>
+                            <small style="opacity: 0.8;">your.email@example.com</small>
+                        </a>
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="connect-link">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                            <small style="opacity: 0.8;">Professional Network</small>
+                        </a>
+                        <a href="https://github.com/yourusername" target="_blank" class="connect-link">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                            <small style="opacity: 0.8;">Code Repository</small>
+                        </a>
+                        <a href="https://orcid.org/your-orcid-id" target="_blank" class="connect-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>ORCID</span>
+                            <small style="opacity: 0.8;">Research Profile</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Generate enhanced stars with different types
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 150;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = Math.random() > 0.8 ? 'star bright' : 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                if (star.classList.contains('bright')) {
+                    star.style.width = Math.random() * 4 + 2 + 'px';
+                } else {
+                    star.style.width = Math.random() * 3 + 1 + 'px';
+                }
+                
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Smooth scrolling for navigation with offset for fixed nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed nav
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Enhanced scroll animations with stagger effect
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            const windowHeight = window.innerHeight;
+
+            elements.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, index * 100); // Stagger animation
+                }
+            });
+        }
+
+        // Parallax effect for background elements
+        function parallaxEffect() {
+            const scrolled = window.pageYOffset;
+            const brushstrokes = document.querySelector('.brushstrokes');
+            const stars = document.querySelector('.stars');
+            
+            if (brushstrokes) {
+                brushstrokes.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+            if (stars) {
+                stars.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+        }
+
+        // Active nav link highlighting
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '#fff';
+                link.style.background = 'transparent';
+                if (link.getAttribute('href') === '#' + current) {
+                    link.style.color = '#ffd700';
+                    link.style.background = 'rgba(255, 215, 0, 0.1)';
+                }
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            animateOnScroll();
+            updateActiveNavLink();
+        });
+
+        window.addEventListener('scroll', function() {
+            animateOnScroll();
+            parallaxEffect();
+            updateActiveNavLink();
+        });
+
+        // Add typing effect to the main heading
+        function typeWriter(element, text, delay = 100) {
+            let i = 0;
+            element.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, delay);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', function() {
+            const heading = document.querySelector('.home h1');
+            if (heading) {
+                const originalText = heading.textContent;
+                typeWriter(heading, originalText, 150);
+            }
+        });
+    </script>
+</body>
+</html>
